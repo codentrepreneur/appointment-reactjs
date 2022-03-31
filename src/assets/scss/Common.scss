@@ -1,0 +1,25 @@
+@import 'bootstrap/dist/css/bootstrap.min.css';
+@import url("https://cdn.syncfusion.com/ej2/material.css");
+
+//@import "@syncfusion/ej2-base/styles/material.css";
+//@import "@syncfusion/ej2-buttons/styles/material.css";
+//@import "@syncfusion/ej2-react-calendars/styles/material.css";
+
+h1{
+    font-size: 23px;
+    margin-bottom: 30px;
+}
+
+//Dimension
+.mw-600{
+    max-width: 600px;
+}
+
+//font size
+.f-12{
+    font-size: 12px;
+}
+
+.faPencil{
+    color: #c3c3c3;
+}
