@@ -77,7 +77,7 @@ export default class Register extends React.Component{
                                 </select>
                               </div>
                               <div className="mb-3">
-                                <label className="form-label">Patient Name</label>
+                                <label className="form-label">Name</label>
                                 <input type="text" name="name" className="form-control" value={this.state.name} onChange={(e)=>{ this.setState({name:e.target.value}) }} ></input>
                               </div>
                               <div className="mb-3">
