@@ -4,14 +4,14 @@ import AppUrl from "../Helper/AppUrl";
 import RestClient from "../Helper/RestClient";
 import Auth from "../Helper/Auth";
 import Helper from "../Helper/Helper";
-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPencil } from '@fortawesome/free-solid-svg-icons';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import {Button, Modal} from 'react-bootstrap';
 import dateTimeFormat from  "../Helper/dateTimeFormat";
-import {DatePickerComponent} from '@syncfusion/ej2-react-calendars';
+import AppointmentCalendar from "../Reusable/AppointmentCalendar";
 import axios from 'axios';
+
 
 export default class Appointments extends React.Component{
 
@@ -166,6 +166,11 @@ export default class Appointments extends React.Component{
         });
     }
 
+    //set state
+    setCalendar = (calendar) => {
+        this.setState(calendar);
+    }
+
     /*
     * Display view
     */
@@ -283,22 +288,20 @@ export default class Appointments extends React.Component{
                   <form onSubmit={this.handlerFilter}>
                     <div className="row">
                         <div className="col-2">
-                          <DatePickerComponent
-                              name="startDate"
-                              placeholder="Start Date"
-                              value={this.state.startDate}
-                              strictMode={false}
-                              onChange={(e)=>{this.setState({ startDate: e.target.value ? e.target.value.toISOString(): ''})}}
-                          ></DatePickerComponent>
+                            <AppointmentCalendar
+                                name="startDate"
+                                placeholder="Start Date"
+                                value={this.state.startDate}
+                                setCalendar={this.setCalendar}
+                            />
                         </div>
                         <div className="col-2">
-                          <DatePickerComponent
-                              name="startDate"
-                              placeholder="End Date"
-                              value={this.state.endDate}
-                              strictMode={false}
-                              onChange={(e)=>{this.setState({ endDate: (e.target.value) ? e.target.value.toISOString() : ''})}}
-                          ></DatePickerComponent>
+                            <AppointmentCalendar
+                                name="endDate"
+                                placeholder="End Date"
+                                value={this.state.endDate}
+                                setCalendar={this.setCalendar}
+                            />
                         </div>
                         {docFilter}
                         <div className="col-2">

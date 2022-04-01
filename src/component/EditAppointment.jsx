@@ -144,8 +144,7 @@ function EditAppointment({ history, match }) {
                                       placeholder="Choose date"
                                       name="appointment_schedule"
                                       value={itemState.appointment_schedule}
-                                      setCalendar={setCalendar}
-                                  />
+                                      setCalendar={setCalendar}/>
                               </div>
                             </div>
                           </div>

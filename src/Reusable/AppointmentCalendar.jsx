@@ -2,6 +2,7 @@ import React from 'react';
 import {DatePickerComponent} from '@syncfusion/ej2-react-calendars';
 import dateTimeFormat from "../Helper/dateTimeFormat";
 import Helper from "../Helper/Helper";
+import * as ReactDOM from 'react-dom';
 
 export default class AppointmentCalendar extends React.Component{
 
@@ -23,32 +24,29 @@ export default class AppointmentCalendar extends React.Component{
         this.props.setCalendar(data);
     }
 
+    onFocus = (args) => {
+        this.dateObj.show();
+    }
+
     render(){
 
         const propName = this.props.name;
 
-        /*
-        const cleanDate = dateTimeFormat.cleanDate(this.props.value);
-        let xDateString = dateTimeFormat.xDate(cleanDate);
-        if(!this.props.value){
-            xDateString = '';
-        }
-        */
-
-        //console.log('Check: ',xDateString);
         return (
-            <div>
+
                 <DatePickerComponent
                     name={propName}
                     value={this.props.value}
                     placeholder={this.props.placeholder}
                     min={this.minDate}
-                    max={this.maxDate}
                     onChange={(e)=>{this.handleChange(e,propName)}}
                     strictMode={false}
                     renderDayCell={this.disabledDate}
+
+                    focus={this.onFocus.bind(this)}
+                    ref = {scope => {this.dateObj = scope }}
                 ></DatePickerComponent >
-            </div>
+
         )
     }
 

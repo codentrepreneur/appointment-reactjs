@@ -15,6 +15,10 @@ export default class AppointmentTime extends React.Component{
         this.props.setTime(data);
     }
 
+    onFocus = (args) => {
+        this.dateObj.show();
+    }
+
     render(){
 
         const propName = this.props.name;
@@ -29,6 +33,9 @@ export default class AppointmentTime extends React.Component{
                 max={this.maxTime}
                 onChange={(e)=>{this.handleChange(e,propName)}}
                 strictMode={false}
+
+                focus={this.onFocus.bind(this)}
+                ref = {scope => {this.dateObj = scope }}
                 ></TimePickerComponent>
             </div>
         )
