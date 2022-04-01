@@ -1,7 +1,7 @@
 import React from 'react';
 import {NavLink, Redirect} from "react-router-dom";
-import AppUrl from "../RestApi/AppUrl";
-import RestClient from "../RestApi/RestClient";
+import AppUrl from "../Helper/AppUrl";
+import RestClient from "../Helper/RestClient";
 import Auth from "../Helper/Auth";
 
 export default class Register extends React.Component{

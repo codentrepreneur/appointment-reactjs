@@ -1,7 +1,7 @@
 import React from 'react';
 import {NavLink, Navigate, Redirect } from "react-router-dom";
-import AppUrl from "../RestApi/AppUrl";
-import RestClient from "../RestApi/RestClient";
+import AppUrl from "../Helper/AppUrl";
+import RestClient from "../Helper/RestClient";
 import Auth from "../Helper/Auth";
 import Helper from "../Helper/Helper";
 
@@ -223,16 +223,22 @@ export default class Appointments extends React.Component{
             //Prepare HTML...
             return (
                 <tr key={appointment.id} >
-                  <td>{appointment.name}</td>
-                  <td>
+                  <td className="f-12">{appointment.name}</td>
+                  <td className="f-12">
                       {doctor ? doctor.name : ''}
                   </td>
-                  <td className="text-center">
+                  <td className="text-center f-12">
                       {appointment.status}
                       {appUpdateStatus}
                   </td>
-                  <td>{dateTimeFormat.cleanDate(appointment.appointment_schedule)}</td>
-                  <td className="text-center">
+                  <td className="f-12">
+                    {dateTimeFormat.cleanDate(appointment.appointment_schedule)}
+                  </td>
+                  <td className="f-12">
+                    {dateTimeFormat.cleanTime(appointment.appointment_time)} -
+                    {dateTimeFormat.cleanTime(appointment.appointment_time_to)}
+                  </td>
+                  <td className="text-center f-12">
                     {appAction}
                   </td>
                 </tr>
@@ -306,11 +312,12 @@ export default class Appointments extends React.Component{
                 <table className="table table-striped">
                   <thead>
                     <tr>
-                      <th width="25%" scope="col">Name</th>
-                      <th width="20%" scope="col">Assign Doctor</th>
-                      <th width="15%" scope="col" className="text-center">Status</th>
-                      <th width="15%" scope="col">Date/Time</th>
-                      <th width="10%" scope="col" className="text-center">Action</th>
+                      <th width="20%" scope="col">Name</th>
+                      <th width="20%" scope="col">Assigned Doctor</th>
+                      <th width="10%" scope="col" className="text-center">Status</th>
+                      <th width="15%" scope="col">Date</th>
+                      <th width="15%" scope="col">Time</th>
+                      <th width="15%" scope="col" className="text-center">Action</th>
                     </tr>
                   </thead>
                   <tbody>

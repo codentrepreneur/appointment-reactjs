@@ -8,8 +8,8 @@ import Login from '../component/Login';
 import Register from '../component/Register';
 import EditAppointment from '../component/EditAppointment';
 import CreateAppointment from '../component/CreateAppointment';
-import AppUrl from "../RestApi/AppUrl";
-import RestClient from "../RestApi/RestClient";
+import AppUrl from "../Helper/AppUrl";
+import RestClient from "../Helper/RestClient";
 import Auth from "../Helper/Auth";
 import axios from 'axios';
 
@@ -67,7 +67,7 @@ export default class AppRouter extends React.Component{
                     <Route path="/login"><Login user={this.state.user} setUser={this.setUser} /></Route>
                     <Route path="/register"><Register user={this.state.user} setUser={this.setUser} /></Route>
                     <Route path="/appointments"><Appointments user={this.state.user} /></Route>
-                    <Route path="/create-appointment"><CreateAppointment /></Route>
+                    <Route path="/create-appointment"><CreateAppointment user={this.state.user} /></Route>
                     <Route path="/edit-appointment/:id" component={EditAppointment} />
                 </div>
             </Switch>

@@ -67,19 +67,6 @@ function EditAppointment({ history, match }) {
         setItemState(data);
     }
 
-    //set state
-    const setCalendar = (calendar) => {
-        const propName = Object.keys(calendar);
-        let data = itemState;
-        data[propName] = calendar[propName];
-        setItemState(data);
-    }
-
-    //set state
-    const setTime = (time) => {
-        //this.setState(time);
-    }
-
     // Message alert...
     let messageStateAlert = '';
     if(messageState){
@@ -118,22 +105,24 @@ function EditAppointment({ history, match }) {
                       <div className="text-end">
                         <NavLink className="btn btn-secondary btn-sm" to="/appointments">&#171; Back</NavLink>
                       </div>
-                      <h1 className="text-center mb-4">Edit Appointment {itemState.name}</h1>
+                      <h1 className="text-center mb-4">Edit Appointment</h1>
                       {messageStateAlert}
                       <form onSubmit={formHandler}>
                           <div className="mb-3">
                             <label className="form-label">Name</label>
                             <input type="text" name="name" className="form-control" value={itemState.name} onChange={onChangeState}></input>
                           </div>
-                          <div className="mb-12">
-                          {itemState.appointment_schedule}
-                            <label className="form-label">Appointment Date</label>
-                            <AppointmentCalendar
-                                placeholder="Choose date"
+                          <div className="mb-3">
+                            <label className="form-label">Appointment Date/Time</label>
+                            <DateTimePickerComponent
                                 name="appointment_schedule"
+                                placeholder="Choose date and time"
                                 value={itemState.appointment_schedule}
-                                setCalendar={setCalendar}
-                            />
+                                format="dd-MM-yy HH:mm"
+                                step={60}
+                                strictMode={false}
+                                onChange={onChangeState}
+                            ></DateTimePickerComponent>
                           </div>
 
                           <div className="mb-3">
