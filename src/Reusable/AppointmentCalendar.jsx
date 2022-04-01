@@ -1,7 +1,7 @@
 import React from 'react';
 import {DatePickerComponent} from '@syncfusion/ej2-react-calendars';
-import Helper from "../Helper/Helper";
 import dateTimeFormat from "../Helper/dateTimeFormat";
+import Helper from "../Helper/Helper";
 
 export default class AppointmentCalendar extends React.Component{
 
@@ -19,21 +19,28 @@ export default class AppointmentCalendar extends React.Component{
         const data = {};
         const value = e.target.value !== null ? e.target.value.toISOString():'';
         data[propName] = value;
-        console.log('Calendar', data);
+        //console.log('Calendar', data);
         this.props.setCalendar(data);
     }
 
     render(){
 
         const propName = this.props.name;
-        const cleanDate = dateTimeFormat.cleanDate(this.props.value);
-        const xDateString = dateTimeFormat.xDate(cleanDate);
 
+        /*
+        const cleanDate = dateTimeFormat.cleanDate(this.props.value);
+        let xDateString = dateTimeFormat.xDate(cleanDate);
+        if(!this.props.value){
+            xDateString = '';
+        }
+        */
+
+        //console.log('Check: ',xDateString);
         return (
             <div>
                 <DatePickerComponent
                     name={propName}
-                    value={xDateString}
+                    value={this.props.value}
                     placeholder={this.props.placeholder}
                     min={this.minDate}
                     max={this.maxDate}

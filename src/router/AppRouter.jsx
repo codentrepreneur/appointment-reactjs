@@ -22,18 +22,18 @@ export default class AppRouter extends React.Component{
     componentDidMount = () => {
         //Check if user is authenticated...
         RestClient.GetRequest(`${AppUrl.BaseURL}/users/auth`, true).then(response => {
-            this.setState({user:response.result});
-        }).catch(function (error) {
-            // handle error
-            console.log('Check auth stateless:', error.response);
-            if (error.response) {
-                // Check error response...
-                if(error.response.status === 401){ // if authorized force logout
-                   localStorage.clear();
-                   this.setUser({user:{}});
+            if(response.validation.status_code==401){
+                try{
+                    if(response.validation.status_code==401){
+                        localStorage.clear();
+                        this.setUser({user:{}});
+                    }
+                }catch(error){
+                    //console.log(error);
                 }
+            }else{
+                this.setState({user:response.result});
             }
-
         });
     }
 

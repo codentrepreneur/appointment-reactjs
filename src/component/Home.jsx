@@ -39,7 +39,15 @@ export default class Home extends React.Component{
                 messageState: response.validation.message
             });
             if(response.validation.status){
-                e.target.reset();
+
+                this.setState({
+                    name: '',
+                    appointment_schedule: '',
+                    appointment_time: '',
+                    appointment_time_to: '',
+                    appointment_comment: '',
+                });
+                //e.target.reset(); //buggy using reset...
             }
         });
     }
@@ -76,7 +84,7 @@ export default class Home extends React.Component{
                             <form id="createForm" onSubmit={this.createHandler}>
                                 <div className="mb-3">
                                   <label className="form-label">Patient Name</label>
-                                  <input type="text" name="name" className="form-control" onChange={(e)=>{this.setState({name:e.target.value})}}></input>
+                                  <input type="text" name="name" className="form-control" value={this.state.name} onChange={(e)=>{this.setState({name:e.target.value})}}></input>
                                 </div>
                                 <div className="mb-3">
                                   <label className="form-label">Appointment Date</label>
@@ -115,7 +123,7 @@ export default class Home extends React.Component{
                                 </div>
                                 <div className="mb-3">
                                     <label className="form-label">Comment</label>
-                                    <textarea name="appointment_comment" className="form-control u-height-150" onChange={(e)=>{this.setState({appointment_comment:e.target.value})}} ></textarea>
+                                    <textarea name="appointment_comment" value={this.state.appointment_comment} className="form-control u-height-150" onChange={(e)=>{this.setState({appointment_comment:e.target.value})}} ></textarea>
                                 </div>
                                 <div className="text-center">
                                     <button type="submit" className="btn btn-primary">Submit</button>

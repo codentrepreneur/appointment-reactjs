@@ -33,7 +33,14 @@ export default class Register extends React.Component{
                 messageState: response.validation.message
             });
             if(response.validation.status){
-                e.target.reset();
+                this.setState({
+                    userType:'',
+                    name:'',
+                    email:'',
+                    password:'',
+                    confirmPassword:'',
+                });
+                //e.target.reset();  //buggy using reset...
             }
         });
 
@@ -63,27 +70,27 @@ export default class Register extends React.Component{
                             <form onSubmit={this.handlerRegister}>
                               <div className="mb-3">
                                 <label className="form-label">User Type</label>
-                                <select name="userType" className="form-control" onChange={(e)=>{ this.setState({userType:e.target.value}) }}>
+                                <select name="userType" className="form-control" value={this.state.userType} onChange={(e)=>{ this.setState({userType:e.target.value}) }}>
                                   <option value="">Please select...</option>
                                   <option value="Scheduler">Scheduler</option>
                                   <option value="Doctor">Doctor</option>
                                 </select>
                               </div>
                               <div className="mb-3">
-                                <label className="form-label">Name</label>
-                                <input type="text" name="userType" className="form-control" onChange={(e)=>{ this.setState({name:e.target.value}) }} ></input>
+                                <label className="form-label">Patient Name</label>
+                                <input type="text" name="name" className="form-control" value={this.state.name} onChange={(e)=>{ this.setState({name:e.target.value}) }} ></input>
                               </div>
                               <div className="mb-3">
                                 <label className="form-label">Email Address</label>
-                                <input type="text" name="email" className="form-control" onChange={(e)=>{ this.setState({email:e.target.value}) }}></input>
+                                <input type="text" name="email" className="form-control" value={this.state.email} onChange={(e)=>{ this.setState({email:e.target.value}) }}></input>
                               </div>
                               <div className="mb-3">
                                 <label className="form-label">Password</label>
-                                <input type="password" name="password" className="form-control" onChange={(e)=>{ this.setState({password:e.target.value}) }}></input>
+                                <input type="password" name="password" className="form-control" value={this.state.password} onChange={(e)=>{ this.setState({password:e.target.value}) }}></input>
                               </div>
                               <div className="mb-3">
                                 <label className="form-label">Confirm Password</label>
-                                <input type="password" name="confirmPassword" className="form-control" onChange={(e)=>{ this.setState({confirmPassword:e.target.value}) }}></input>
+                                <input type="password" name="confirmPassword" className="form-control" value={this.state.confirmPassword} onChange={(e)=>{ this.setState({confirmPassword:e.target.value}) }}></input>
                               </div>
                               <div className="text-center">
                                   <button type="submit" className="btn btn-primary">Submit</button>

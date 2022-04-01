@@ -11,14 +11,14 @@ export default class AppointmentTime extends React.Component{
         const data = {};
         const value = e.target.value !== null ? e.target.value.toISOString():'';
         data[propName] = value;
-        console.log('Time', data);
+        //console.log('Time', data);
         this.props.setTime(data);
     }
 
     render(){
 
         const propName = this.props.name;
-
+        //console.log('Check Time: ',typeof this.props.value);
         return (
             <div>
                 <TimePickerComponent

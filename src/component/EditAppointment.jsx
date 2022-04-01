@@ -27,7 +27,7 @@ function EditAppointment({ history, match }) {
 
            // get appointments and set useState...
            RestClient.GetRequest(`${AppUrl.BaseURL}/appointments/${id}`,true).then(response => {
-               console.log(response.result);
+               //console.log(response.result);
                setItemState(response.result);
            });
        }
@@ -47,9 +47,9 @@ function EditAppointment({ history, match }) {
             appointment_comment: itemState.appointment_comment
         }
 
+        //Submit button loading state...
         setButtonState('loading...');
 
-        //console.log('submit: ',data);
         //Update data...
         RestClient.PutRequest(`${AppUrl.BaseURL}/appointments/${id}`, data, true).then(response => {
             setMessageState(response.validation.message);
@@ -87,7 +87,7 @@ function EditAppointment({ history, match }) {
         const propName = Object.keys(time);
         let data = itemState;
         data[propName] = time[propName];
-        console.log('Check Time: ',data);
+        //console.log('Check Time: ',data);
         setItemState(data);
     }
 
@@ -173,7 +173,7 @@ function EditAppointment({ history, match }) {
                           <div className="mb-3">
                             <label className="form-label">Doctor</label>
                             <select name="did" className="form-control" value={itemState.did} onChange={onChangeState}>
-                              <option value="Scheduler">Please select...</option>
+                              <option value="">Please select...</option>
                               {allDoctors?allDoctors:''}
                             </select>
                           </div>

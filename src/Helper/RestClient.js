@@ -20,32 +20,20 @@ class RestClient{
         }
 
         return axios.get(getUrl,headerData).then(response=>{
-
-            //console.log('Authenticated: ',response.status); //just to check in the console if authorized.
-            return response.data
-
-        }).catch(function (error) {
-            // handle error
-            //console.log(error.response);
-            if (error.response) {
-                // Check error response...
-                 if(auth){
-                     if(error.response.status === 401){ // if authorized force logout
-                        localStorage.clear();
-                     }
-                 }else{
-                     //console.log("Response: ", error.response.data);
-                     //console.log("Response: ", error.response.status);
-                     //console.log("Response: ", error.response.headers);
-                 }
-            } else if (error.request) {
-                // Check error request...
-                console.log("Request: ",error.request);
-            } else {
-                // Check error messeage...
-                console.log('Message: ', error.message);
+            try{
+                if(response.validation.status_code==401){
+                    localStorage.clear();
+                }else{
+                    console.log('Authenticated: ',response.status); //just to check in the console if authorized.
+                }
+            }catch(error){
+                console.log(error);
             }
 
+            return response.data
+        }).catch(function (error) {
+            // handle error
+            //console.log('Error: ',error);
         });
     }
 
@@ -63,29 +51,19 @@ class RestClient{
         }
 
         return axios.put(getUrl, getData, headerData).then( (response) =>{
+            try{
+                if(response.validation.status_code==401){
+                    localStorage.clear();
+                }else{
+                    console.log('Authenticated: ',response.status); //just to check in the console if authorized.
+                }
+            }catch(error){
+                //console.log(error);
+            }
             return response.data;
         }).catch(function (error) {
             // handle error
-            //console.log('in: ',error.response);
-            if (error.response) {
-                // Check error response...
-                 if(auth){
-                     if(error.response.status === 401){ // if authorized force logout
-                        //localStorage.clear();
-                        //console.log('in clear:',error.response.status);
-                     }
-                 }else{
-                     //console.log("Response: ", error.response.data);
-                     //console.log("Response: ", error.response.status);
-                     //console.log("Response: ", error.response.headers);
-                 }
-            } else if (error.request) {
-                // Check error request...
-                console.log("Request: ",error.request);
-            } else {
-                // Check error messeage...
-                console.log('Message: ', error.message);
-            }
+            console.log('Error: ',error);
         });
     }
 
@@ -103,6 +81,13 @@ class RestClient{
         }
 
         return axios.post(getUrl, getData, headerData).then( (response) =>{
+            try{
+                if(response.validation.status_code==401){
+                    localStorage.clear();
+                }
+            }catch(error){
+                //console.log(error);
+            }
             return response.data;
         }).catch(function (error) {
             // handle error
@@ -124,6 +109,13 @@ class RestClient{
         }
 
         return axios.delete(getUrl, headerData).then( (response) =>{
+            try{
+                if(response.validation.status_code==401){
+                    localStorage.clear();
+                }
+            }catch(error){
+                //console.log(error);
+            }
             return response.data;
         }).catch(function (error) {
             // handle error
