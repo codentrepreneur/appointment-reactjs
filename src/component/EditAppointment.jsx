@@ -2,9 +2,7 @@ import React, { useState, useEffect } from 'react';
 import {NavLink, Navigate, useParams, Redirect} from "react-router-dom";
 import AppUrl from "../Helper/AppUrl";
 import RestClient from "../Helper/RestClient";
-//import {DateTimePickerComponent} from '@syncfusion/ej2-react-calendars';
 import Auth from "../Helper/Auth";
-
 import AppointmentCalendar from "../Reusable/AppointmentCalendar";
 import AppointmentTime from "../Reusable/AppointmentTime";
 
@@ -14,6 +12,7 @@ function EditAppointment({ history, match }) {
     const [itemState, setItemState] = useState({});
     const [messageState, setMessageState] = useState('');
     const [validationState, setValidationState] = useState('');
+    const [buttonState, setButtonState] = useState('Submit');
     const { id } = match.params;
     const isAddMode = !id;
 
@@ -43,12 +42,19 @@ function EditAppointment({ history, match }) {
             name: itemState.name,
             status: itemState.status,
             appointment_schedule: itemState.appointment_schedule,
+            appointment_time: itemState.appointment_time,
+            appointment_time_to: itemState.appointment_time_to,
+            appointment_comment: itemState.appointment_comment
         }
 
+        setButtonState('loading...');
+
+        //console.log('submit: ',data);
         //Update data...
         RestClient.PutRequest(`${AppUrl.BaseURL}/appointments/${id}`, data, true).then(response => {
             setMessageState(response.validation.message);
             setValidationState(response.validation.status);
+            setButtonState('Submit');
         });
     }
 
@@ -62,6 +68,7 @@ function EditAppointment({ history, match }) {
             appointment_schedule: itemState.appointment_schedule,
             appointment_time: itemState.appointment_time,
             appointment_time_to: itemState.appointment_time_to,
+            appointment_comment: itemState.appointment_comment
         }
         data[e.target.name] = e.target.value;
         setItemState(data);
@@ -77,7 +84,11 @@ function EditAppointment({ history, match }) {
 
     //set state
     const setTime = (time) => {
-        //this.setState(time);
+        const propName = Object.keys(time);
+        let data = itemState;
+        data[propName] = time[propName];
+        console.log('Check Time: ',data);
+        setItemState(data);
     }
 
     // Message alert...
@@ -107,7 +118,7 @@ function EditAppointment({ history, match }) {
     if(!Auth.isLoggedIn()){ return <Redirect to="/login" /> }
 
     //For Scheduler only...
-    if(!Auth.isScheduler()){ return <Redirect to="/appointments" /> }
+    if(!Auth.isScheduler() || !itemState){ return <Redirect to="/appointments" /> }
 
     //Display view
     return(
@@ -118,24 +129,47 @@ function EditAppointment({ history, match }) {
                       <div className="text-end">
                         <NavLink className="btn btn-secondary btn-sm" to="/appointments">&#171; Back</NavLink>
                       </div>
-                      <h1 className="text-center mb-4">Edit Appointment {itemState.name}</h1>
+                      <h1 className="text-center mb-4">Edit Appointment</h1>
                       {messageStateAlert}
                       <form onSubmit={formHandler}>
                           <div className="mb-3">
-                            <label className="form-label">Name</label>
+                            <label className="form-label">Patient Name</label>
                             <input type="text" name="name" className="form-control" value={itemState.name} onChange={onChangeState}></input>
                           </div>
-                          <div className="mb-12">
-                          {itemState.appointment_schedule}
+                          <div className="mb-3">
                             <label className="form-label">Appointment Date</label>
-                            <AppointmentCalendar
-                                placeholder="Choose date"
-                                name="appointment_schedule"
-                                value={itemState.appointment_schedule}
-                                setCalendar={setCalendar}
-                            />
+                            <div className="row">
+                              <div className="col-md-12">
+                                  <AppointmentCalendar
+                                      placeholder="Choose date"
+                                      name="appointment_schedule"
+                                      value={itemState.appointment_schedule}
+                                      setCalendar={setCalendar}
+                                  />
+                              </div>
+                            </div>
                           </div>
-
+                          <div className="mb-3">
+                            <label className="form-label">Appointment Time</label>
+                            <div className="row">
+                              <div className="col-md-6">
+                                  <AppointmentTime
+                                      placeholder="Choose time from"
+                                      name="appointment_time"
+                                      value={itemState.appointment_time}
+                                      setTime={setTime}
+                                  />
+                              </div>
+                              <div className="col-md-6">
+                                  <AppointmentTime
+                                      placeholder="Choose time to"
+                                      name="appointment_time_to"
+                                      value={itemState.appointment_time_to}
+                                      setTime={setTime}
+                                  />
+                              </div>
+                            </div>
+                          </div>
                           <div className="mb-3">
                             <label className="form-label">Doctor</label>
                             <select name="did" className="form-control" value={itemState.did} onChange={onChangeState}>
@@ -153,8 +187,15 @@ function EditAppointment({ history, match }) {
                             </select>
                           </div>
 
+                          <div className="mb-3">
+                              <label className="form-label">Comment</label>
+                              <textarea name="appointment_comment" className="form-control u-height-150"
+                                  value={itemState.appointment_comment}
+                                  onChange={onChangeState} ></textarea>
+                          </div>
+
                           <div className="text-center">
-                              <button type="submit" className="btn btn-primary">Submit</button>
+                              <button type="submit" className="btn btn-primary">{buttonState}</button>
                           </div>
                         </form>
                     </div>

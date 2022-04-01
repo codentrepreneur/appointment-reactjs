@@ -12,24 +12,13 @@ export default class CreateAppointment extends React.Component<{}, {}>{
     dateValue: Date = new Date();
 
     state = {
-        doctors: [],
         name: '',
         appointment_schedule: '',
         appointment_time: '',
         appointment_time_to: '',
         appointment_comment: '',
-        did: '',
         validationState: '',
         messageState: ''
-    }
-
-    // Onload priority
-    componentDidMount = () => {
-        //Get all doctors
-        RestClient.GetRequest(`${AppUrl.BaseURL}/users/doctors`, true).then(response => {
-            this.setState({ doctors: response.result });
-        });
-
     }
 
     createHandler = (e) => {
@@ -38,7 +27,6 @@ export default class CreateAppointment extends React.Component<{}, {}>{
         //prepare data...
         const data = {
             name: this.state.name,
-            did: this.state.did,
             appointment_schedule: this.state.appointment_schedule,
             appointment_time: this.state.appointment_time,
             appointment_time_to: this.state.appointment_time_to,
@@ -85,19 +73,6 @@ export default class CreateAppointment extends React.Component<{}, {}>{
             );
         }
 
-        //Doctors selection...
-        let doctors = [];
-        let allDoctors = '';
-        if(this.state.doctors.length){
-            //console.log(this.state.doctors);
-            doctors = this.state.doctors;
-            allDoctors = doctors.map((doctor, idx)=>{
-                return (
-                    <option value={doctor.id}>{doctor.name}</option>
-                )
-            });
-        }
-
         return (
             <div>
                 <div className="ms-auto me-auto ps-5 pe-5 pb-5 pt-4 mw-600 bg-light">
@@ -110,7 +85,7 @@ export default class CreateAppointment extends React.Component<{}, {}>{
                           {messageStateAlert}
                           <form id="createForm" onSubmit={this.createHandler}>
                               <div className="mb-3">
-                                <label className="form-label">Name</label>
+                                <label className="form-label">Patient Name</label>
                                 <input type="text" name="name" className="form-control" onChange={(e)=>{this.setState({name:e.target.value})}}></input>
                               </div>
                               <div className="mb-3">
@@ -146,13 +121,6 @@ export default class CreateAppointment extends React.Component<{}, {}>{
                                       />
                                   </div>
                                 </div>
-                              </div>
-                              <div className="mb-3">
-                                <label className="form-label">Doctor</label>
-                                <select name="did" className="form-control" onChange={(e)=>{this.setState({did:e.target.value})}}>
-                                  <option value="Scheduler">Please select...</option>
-                                  {allDoctors?allDoctors:''}
-                                </select>
                               </div>
                               <div className="mb-3">
                                   <label className="form-label">Comment</label>

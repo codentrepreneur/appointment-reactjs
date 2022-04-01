@@ -8,10 +8,10 @@ export default class AppointmentTime extends React.Component{
     maxTime: Date = new Date(Helper.getCurrentDate()+" 17:00");
 
     handleChange = (e, propName) => {
-        console.log('Time:', e.target.value.toISOString());
-        const value = e.target.value ? e.target.value.toISOString():'';
         const data = {};
+        const value = e.target.value !== null ? e.target.value.toISOString():'';
         data[propName] = value;
+        console.log('Time', data);
         this.props.setTime(data);
     }
 
@@ -28,6 +28,7 @@ export default class AppointmentTime extends React.Component{
                 min={this.minTime}
                 max={this.maxTime}
                 onChange={(e)=>{this.handleChange(e,propName)}}
+                strictMode={false}
                 ></TimePickerComponent>
             </div>
         )

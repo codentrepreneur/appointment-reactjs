@@ -21,12 +21,12 @@ class RestClient{
 
         return axios.get(getUrl,headerData).then(response=>{
 
-            console.log('Authenticated: ',response.status); //just to check in the console if authorized.
+            //console.log('Authenticated: ',response.status); //just to check in the console if authorized.
             return response.data
 
         }).catch(function (error) {
             // handle error
-            console.log(error.response);
+            //console.log(error.response);
             if (error.response) {
                 // Check error response...
                  if(auth){
@@ -66,7 +66,26 @@ class RestClient{
             return response.data;
         }).catch(function (error) {
             // handle error
-            console.log('Error: ',error);
+            //console.log('in: ',error.response);
+            if (error.response) {
+                // Check error response...
+                 if(auth){
+                     if(error.response.status === 401){ // if authorized force logout
+                        //localStorage.clear();
+                        //console.log('in clear:',error.response.status);
+                     }
+                 }else{
+                     //console.log("Response: ", error.response.data);
+                     //console.log("Response: ", error.response.status);
+                     //console.log("Response: ", error.response.headers);
+                 }
+            } else if (error.request) {
+                // Check error request...
+                console.log("Request: ",error.request);
+            } else {
+                // Check error messeage...
+                console.log('Message: ', error.message);
+            }
         });
     }
 

@@ -75,7 +75,7 @@ export default class Home extends React.Component{
                             {messageStateAlert}
                             <form id="createForm" onSubmit={this.createHandler}>
                                 <div className="mb-3">
-                                  <label className="form-label">Name</label>
+                                  <label className="form-label">Patient Name</label>
                                   <input type="text" name="name" className="form-control" onChange={(e)=>{this.setState({name:e.target.value})}}></input>
                                 </div>
                                 <div className="mb-3">
@@ -86,6 +86,7 @@ export default class Home extends React.Component{
                                             name="appointment_schedule"
                                             value={this.state.appointment_schedule}
                                             setCalendar={this.setCalendar}
+                                            placeholder="Choose a date"
                                         />
                                     </div>
                                   </div>

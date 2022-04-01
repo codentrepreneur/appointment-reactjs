@@ -21,7 +21,7 @@ export default class Nav extends React.Component{
         let loggedOutLinks = '';
         let appointmentLink = '';
 
-        if( Auth.isLoggedIn() ){
+        if( Auth.isLoggedIn() && this.props.user ){
             loggedInLinks =  (
                 <div>
                 <ul className="navbar-nav me-auto mb-2 mb-lg-0">

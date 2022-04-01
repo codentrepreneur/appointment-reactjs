@@ -88,7 +88,8 @@ export default class Register extends React.Component{
                               <div className="text-center">
                                   <button type="submit" className="btn btn-primary">Submit</button>
                                   <div className="mt-3 f-12">
-                                  Book an appointment?  <NavLink className="text-decoration-none" to="/">Click Here</NavLink></div>
+                                      Login now?  <NavLink className="text-decoration-none" to="/login">Click Here</NavLink>
+                                  </div>
                               </div>
                             </form>
                         </div>

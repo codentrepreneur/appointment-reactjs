@@ -10,7 +10,7 @@ import { faPencil } from '@fortawesome/free-solid-svg-icons';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import {Button, Modal} from 'react-bootstrap';
 import dateTimeFormat from  "../Helper/dateTimeFormat";
-import {DateTimePickerComponent} from '@syncfusion/ej2-react-calendars';
+import {DatePickerComponent} from '@syncfusion/ej2-react-calendars';
 import axios from 'axios';
 
 export default class Appointments extends React.Component{
@@ -27,7 +27,7 @@ export default class Appointments extends React.Component{
         validationState: '',
         messageState: '',
         startDate: '',
-        endDate: ''
+        endDate: '',
     };
 
     // Onload priority
@@ -42,7 +42,6 @@ export default class Appointments extends React.Component{
         RestClient.GetRequest(`${AppUrl.BaseURL}/appointments`,true).then(response => {
             this.setState({ appointments: response.result });
         });
-
     }
 
     /*
@@ -59,8 +58,6 @@ export default class Appointments extends React.Component{
 
       // Date Filter appointments
       RestClient.PostRequest(`${AppUrl.BaseURL}/appointments/dateFilter`, data, true).then(response => {
-          //console.log(data);
-          //console.log('Result: ',response.result);
           this.setState({ appointments: response.result });
       });
 
@@ -102,22 +99,23 @@ export default class Appointments extends React.Component{
                 messageState: response.validation.message
             });
 
-            //get current list
-            let update_appointments = this.state.appointments;
+            if(response.validation.status){
+                //get current list
+                let update_appointments = this.state.appointments;
 
-            //get index of the updated...
-            const selected_appointment = update_appointments.find( (o)=> {
-                return o.id == this.state.modal_id;
-            });
+                //get index of the updated...
+                const selected_appointment = update_appointments.find( (o)=> {
+                    return o.id == this.state.modal_id;
+                });
+                const index = update_appointments .indexOf(selected_appointment);
 
-            const index = update_appointments .indexOf(selected_appointment);
-
-            //Update status of the specific appointment
-            //console.log(update_appointments);
-            update_appointments[index].status = this.state.modal_status;
-            this.setState({
-                appointments: update_appointments
-            });
+                //Update status of the specific appointment
+                //console.log(update_appointments);
+                update_appointments[index].status = this.state.modal_status;
+                this.setState({
+                    appointments: update_appointments
+                });
+            }
 
         });
     }
@@ -176,8 +174,7 @@ export default class Appointments extends React.Component{
         /*
         * For login users only...
         */
-        if(!Auth.isLoggedIn() || !this.props.user){ return <Redirect to="/login" /> }
-
+        if(!Auth.isLoggedIn()){ return <Redirect to="/login" /> }
 
         //Display all appointments loop...
         let createApp = '';
@@ -189,7 +186,6 @@ export default class Appointments extends React.Component{
             let doctor = Helper.getItemById(this.state.doctors, appointment.did);
             let appAction = 'N/A';
             let appUpdateStatus = '';
-
 
             // Action Buttons...
             if( !Auth.isDoctor() && appointment.status !== 'Accepted' ){ //Visble only to Scheduler and not yet been Accepted
@@ -209,15 +205,6 @@ export default class Appointments extends React.Component{
                 appUpdateStatus = (
                     <a href=""><FontAwesomeIcon className="faPencil" icon={faPencil} onClick={ (e)=>{this.handleModal(e, appointment.id)} } /></a>
                 );
-            }
-
-            //Create Appoint for Scheduler only...
-            if(!Auth.isDoctor()){
-                createApp = (
-                    <div className="float-end">
-                      <NavLink className="btn btn-success" to="/create-appointment"><FontAwesomeIcon icon={faPlus} /> Create Appointment</NavLink>
-                    </div>
-                )
             }
 
             //Prepare HTML...
@@ -259,6 +246,15 @@ export default class Appointments extends React.Component{
             );
         }
 
+        //Create Appoint for Scheduler only...
+        if(!Auth.isDoctor()){
+            createApp = (
+                <div className="float-end">
+                  <NavLink className="btn btn-success" to="/create-appointment"><FontAwesomeIcon icon={faPlus} /> Create Appointment</NavLink>
+                </div>
+            )
+        }
+
         //Message alert...
         let messageStateAlert = '';
         if(this.state.messageState){
@@ -280,26 +276,22 @@ export default class Appointments extends React.Component{
                   <form onSubmit={this.handlerFilter}>
                     <div className="row">
                         <div className="col-2">
-                          <DateTimePickerComponent
+                          <DatePickerComponent
                               name="startDate"
                               placeholder="Start Date"
                               value={this.state.startDate}
-                              format="dd-MM-yy HH:mm"
-                              step={60}
                               strictMode={false}
                               onChange={(e)=>{this.setState({ startDate: e.target.value ? e.target.value.toISOString(): ''})}}
-                          ></DateTimePickerComponent>
+                          ></DatePickerComponent>
                         </div>
                         <div className="col-2">
-                          <DateTimePickerComponent
+                          <DatePickerComponent
                               name="startDate"
                               placeholder="End Date"
                               value={this.state.endDate}
-                              format="dd-MM-yy HH:mm"
-                              step={60}
                               strictMode={false}
                               onChange={(e)=>{this.setState({ endDate: (e.target.value) ? e.target.value.toISOString() : ''})}}
-                          ></DateTimePickerComponent>
+                          ></DatePickerComponent>
                         </div>
                         {docFilter}
                         <div className="col-2">
@@ -312,7 +304,7 @@ export default class Appointments extends React.Component{
                 <table className="table table-striped">
                   <thead>
                     <tr>
-                      <th width="20%" scope="col">Name</th>
+                      <th width="20%" scope="col">Patient Name</th>
                       <th width="20%" scope="col">Assigned Doctor</th>
                       <th width="10%" scope="col" className="text-center">Status</th>
                       <th width="15%" scope="col">Date</th>
@@ -333,11 +325,11 @@ export default class Appointments extends React.Component{
                         <form onSubmit={this.handeUpdateStatus}>
                             {messageStateAlert}
                             <div className="mb-3">
-                              {this.state.modal_name}
+                              Patient's Name: {this.state.modal_name}
                             </div>
                             <div className="mb-3">
                               <select name="status" className="form-control" value={this.state.modal_status} onChange={(e)=>{ this.setState({modal_status:e.target.value}) }}>
-                                <option value="">Please select...</option>
+                                <option value="">Please select a status...</option>
                                 <option value="Accepted">Accepted</option>
                                 <option value="Denied">Denied</option>
                               </select>

@@ -30,6 +30,11 @@ class dateTimeFormat{
         return formattedDate;
     }
 
+    static xDate = (stringDate) => {
+        let date = new Date(stringDate);
+        return date;
+    }
+
 }
 
 export default dateTimeFormat;

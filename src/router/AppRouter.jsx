@@ -13,8 +13,6 @@ import RestClient from "../Helper/RestClient";
 import Auth from "../Helper/Auth";
 import axios from 'axios';
 
-//import Forgetpassword from '../component/Forgetpassword';
-
 export default class AppRouter extends React.Component{
 
     state = {
@@ -27,7 +25,7 @@ export default class AppRouter extends React.Component{
             this.setState({user:response.result});
         }).catch(function (error) {
             // handle error
-            //console.log(error.response);
+            console.log('Check auth stateless:', error.response);
             if (error.response) {
                 // Check error response...
                 if(error.response.status === 401){ // if authorized force logout
@@ -66,7 +64,7 @@ export default class AppRouter extends React.Component{
                     <Route exact path="/"><Home /></Route>
                     <Route path="/login"><Login user={this.state.user} setUser={this.setUser} /></Route>
                     <Route path="/register"><Register user={this.state.user} setUser={this.setUser} /></Route>
-                    <Route path="/appointments"><Appointments user={this.state.user} /></Route>
+                    <Route path="/appointments"><Appointments user={this.state.user} setUser={this.setUser} /></Route>
                     <Route path="/create-appointment"><CreateAppointment user={this.state.user} /></Route>
                     <Route path="/edit-appointment/:id" component={EditAppointment} />
                 </div>

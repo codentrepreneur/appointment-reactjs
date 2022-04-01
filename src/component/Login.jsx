@@ -97,7 +97,8 @@ export default class Login extends React.Component{
                               <div className="text-center">
                                   <button type="submit" className="btn btn-primary">Login</button>
                                   <div className="mt-3 f-12">
-                                  Book an appointment?  <NavLink className="text-decoration-none" to="/">Click Here</NavLink></div>
+                                      Register now?  <NavLink className="text-decoration-none" to="/register">Click Here</NavLink>
+                                  </div>
                               </div>
                             </form>
                         </div>
