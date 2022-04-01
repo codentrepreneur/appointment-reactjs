@@ -40,7 +40,7 @@ function EditAppointment({ history, match }) {
         const data = {
             did: itemState.did,
             name: itemState.name,
-            status: itemState.status,
+            //status: itemState.status,
             appointment_schedule: itemState.appointment_schedule,
             appointment_time: itemState.appointment_time,
             appointment_time_to: itemState.appointment_time_to,
@@ -64,7 +64,7 @@ function EditAppointment({ history, match }) {
         const data = {
             name: itemState.name,
             did: itemState.did,
-            status: itemState.status,
+            //status: itemState.status,
             appointment_schedule: itemState.appointment_schedule,
             appointment_time: itemState.appointment_time,
             appointment_time_to: itemState.appointment_time_to,
@@ -176,16 +176,7 @@ function EditAppointment({ history, match }) {
                               {allDoctors?allDoctors:''}
                             </select>
                           </div>
-
-                          <div className="mb-3">
-                            <label className="form-label">Status</label>
-                            <select name="status" className="form-control" value={itemState.status} onChange={onChangeState}>
-                              <option value="">Please select...</option>
-                              <option value="Accepted">Accepted</option>
-                              <option value="Denied">Denied</option>
-                            </select>
-                          </div>
-
+                          
                           <div className="mb-3">
                               <label className="form-label">Comment</label>
                               <textarea name="appointment_comment" className="form-control u-height-150"
