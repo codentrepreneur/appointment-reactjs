@@ -1,2 +1,2 @@
 # appointment-reactjs
-Frontend ReactJs for appointment system
+Frontend ReactJS for appointment system
