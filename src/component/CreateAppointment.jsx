@@ -9,8 +9,6 @@ import AppointmentTime from "../Reusable/AppointmentTime";
 
 export default class CreateAppointment extends React.Component<{}, {}>{
 
-    //dateValue: Date = new Date();
-
     state = {
         name: '',
         appointment_schedule: '',
